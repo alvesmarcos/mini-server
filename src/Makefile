@@ -10,7 +10,7 @@ FLAGS = -O2 -std=c++11 -pedantic -Wall -Werror
 
 all: main
 
-main: main.o logger.o
+main: main.o
 	$(CC) -g3 $(FLAGS) main.o logger.o -o main
 	./main
 
@@ -20,6 +20,9 @@ main.o:	logger.o
 logger.o:
 	$(CC) $(FLAGS) -c logger.cpp 
 
+socket.o:
+	$(CC) $(FLAGS) -c socket.cpp
+	
 .PHONY: clean
 
 clean:

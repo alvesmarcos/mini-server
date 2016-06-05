@@ -26,10 +26,10 @@ Logger::Cleanup::~Cleanup() {
 
 Logger::Logger(){
 	static Cleanup cleanup;
-	output.open("log.txt", std::ios::out);
+	output.open("../log.txt", std::ios::out);
 
 	if(!output.good())
-		throw std::runtime_error("Unable to generate log file");
+		throw std::runtime_error("Unable to generate log file!");
 
 	std::clog << "Created log file" << std::endl;
 }
@@ -56,14 +56,10 @@ void Logger::sys_register(std::string& message, Flags level) {
 	std::string type;
 	
 	switch(level){
-		case DEBUG:   type = "DEBUG";
-		break;
-		case ERROR:	  type = "ERROR";
-		break;
-		case INFO:	  type = "INFO";
-		break;
-		case WARNING: type = "WARNING";
-		break;
+		case DEBUG:   type = "DEBUG"; 	break;
+		case ERROR:	  type = "ERROR"; 	break;
+		case INFO:	  type = "INFO"; 	break;
+		case WARNING: type = "WARNING"; break;
 	}
 	
 	std::string text = "TYPE: " + type + "\t" + sys_time() + 

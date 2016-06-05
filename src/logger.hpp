@@ -31,7 +31,7 @@ private:
 	std::mutex mutex;
 	std::ofstream output;
 
-	//class external
+	//class internal
 	class Cleanup { public: ~Cleanup(); };
 
 public:
