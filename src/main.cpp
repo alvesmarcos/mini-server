@@ -14,8 +14,16 @@
 ******************************************* **/
 
 #include <iostream>
+#include <exception>
+#include <vector>
+#include <thread>
 #include "logger.hpp"
 #include "socket.h"
+
+void activity(Socket *s, long client) {
+	std::string t = "Hi, connect ok!";
+	s->send(client, t);
+}
 
 int main(int argc, char **argv) {
 	
@@ -23,11 +31,21 @@ int main(int argc, char **argv) {
 
 	int client = 0;
 
-	st.bind();
-	st.listen();
+	try {
 
-	while(true)
-		client = st.accept();
+		st.bind();
+		st.listen();
+		std::vector<std::thread> threads;
+
+		while(true) {
+			client = st.accept();
+			threads.push_back(std::thread(activity, &st, client));
+		}
+
+	} catch (std::exception& e) {
+
+		std::cerr << "Exception: " << e.what() << std::endl;
+	}
 
 	return client;
 }

@@ -23,17 +23,17 @@ Socket::Socket(unsigned int port) {
 		throw std::runtime_error("Error socket!");
 } 
 
-Socket::~Socket() { Socket::close(); }
+Socket::~Socket() { close(); }
 
-long Socket::accept(void) {
+long Socket::accept(void) const {
 	long acc = ::accept(server, 0, 0);
 	return acc;
 }
 
-void Socket::bind(void) {
+void Socket::bind(void) const {
 	int err = ::bind(server, reinterpret_cast<const struct sockaddr*> (&address),
 					sizeof(address));
-	if(err)
+	if(err!=0)
 		throw std::runtime_error("Error bind!");  
 }
 
@@ -44,22 +44,22 @@ void Socket::close(void) {
 		throw std::runtime_error("Error close socket!"); 	
 }
 
-void Socket::connect(void) {
+void Socket::connect(void) const {
 	int err = ::connect(server, reinterpret_cast<const struct sockaddr*>(&address), 
 					   sizeof(address));
 	if(err)
 		throw std::runtime_error("Error connect!"); 	
 }
 
-void Socket::listen(void) {
+void Socket::listen(void) const {
 	int err = ::listen(server, 20);
 	if(err)
 		throw std::runtime_error("Socket inactive!");  		
 }
 
-std::string Socket::receive(long description) {
+std::string Socket::receive(long description) const {
 	char buffer[BYTES];
-	int err = read(description, buffer, sizeof(buffer));
+	int err = read(description, buffer, BYTES);
 
  	if(err == -1)
  		throw std::runtime_error("Error receive!");
@@ -67,8 +67,8 @@ std::string Socket::receive(long description) {
  	return static_cast<std::string>(buffer);
 }
 
-void Socket::send(long description, const char *buffer) {
-	int err = write(description, buffer, sizeof(buffer));
+void Socket::send(long description, std::string& buffer) const {
+	int err = write(description, &buffer[0], buffer.length());
 
  	if(err == -1)
  		throw std::runtime_error("Error send!"); 	

@@ -11,7 +11,7 @@ FLAGS = -O2 -std=c++11 -pedantic -Wall -Werror
 all: main
 
 main: main.o logger.o socket.o
-	$(CC) -g3 $(FLAGS) main.o socket.o logger.o -o main
+	$(CC) -pthread -g3 $(FLAGS) main.o socket.o logger.o -o main
 	./main
 
 main.o: main.cpp

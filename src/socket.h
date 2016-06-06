@@ -20,6 +20,7 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <exception>
 #include <iostream>
 
 #define BYTES 	1024
@@ -36,13 +37,13 @@ public:
 	//destructor
 	~Socket();
 	//functions members
-	long accept();
-	void bind();
+	long accept() const;
+	void bind() const;
 	void close();
-	void connect();
-	void listen();
-	std::string receive(long description) ;
-	void send(long description, const char *buffer);
+	void connect() const;
+	void listen() const;
+	std::string receive(long description) const; 
+	void send(long description, std::string& buffer) const;
 };
 
 #endif //SOCKET_H
