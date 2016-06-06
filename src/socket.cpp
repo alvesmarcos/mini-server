@@ -5,7 +5,7 @@
 *									      *
 *	+ Created Date: May 4th, 2016	      *
 *									      *
-*	+ Last Modified: May  5th, 2016	      *
+*	+ Last Modified: May  6th, 2016	      *
 *									  	  *
 *	+ Title: socket.cpp					  *
 *									      *
@@ -15,57 +15,51 @@
 
 #include "socket.h"
 
-Socket::Socket(unsigned int port, Protocol protocol) {
-	address = {AF_INET, htons(port), INADDR_ANY, 0};
-
-	switch(protocol){
-		case UDP: prot = SOCK_STREAM; break;
-		case TCP: prot = SOCK_DGRAM;  break;
-		default:  throw std::runtime_error("Invalid protocol!"); break;	
-	}
-
-	server = socket(PF_INET, prot, 0);
+Socket::Socket(unsigned int port) {
+	address = {AF_INET, htons(port), (INADDR_ANY), 0};
+	
+	server = socket(AF_INET, SOCK_STREAM, 0);
+	if(server == -1)
+		throw std::runtime_error("Error socket!");
 } 
 
-Socket::~Socket() { /* unimplemented */ }
+Socket::~Socket() { Socket::close(); }
 
-long Socket::accept(void) const {
+long Socket::accept(void) {
 	long acc = ::accept(server, 0, 0);
 	return acc;
 }
 
-void Socket::bind(void) const {
-	int bd = ::bind(server, reinterpret_cast<const struct sockaddr*> (&address),
-					sizeof(address) != 0);
-	if(!bd)
+void Socket::bind(void) {
+	int err = ::bind(server, reinterpret_cast<const struct sockaddr*> (&address),
+					sizeof(address));
+	if(err)
 		throw std::runtime_error("Error bind!");  
 }
 
-void Socket::connect(void) const {
-	int cn = ::connect(server, reinterpret_cast<const struct sockaddr*>(&address), 
-					   sizeof(address) != 0);
-	if(!cn)
+void Socket::close(void) {
+	int err = ::close(server);
+
+	if(err == -1)
+		throw std::runtime_error("Error close socket!"); 	
+}
+
+void Socket::connect(void) {
+	int err = ::connect(server, reinterpret_cast<const struct sockaddr*>(&address), 
+					   sizeof(address));
+	if(err)
 		throw std::runtime_error("Error connect!"); 	
 }
 
-int Socket::get_protocol(void) const {
-	return prot;
-}
-
-void Socket::listen(void) const {
-	int ln = ::listen(server, 20);
-	if(!ln)
+void Socket::listen(void) {
+	int err = ::listen(server, 20);
+	if(err)
 		throw std::runtime_error("Socket inactive!");  		
 }
 
-std::string Socket::receive(long description) const {
+std::string Socket::receive(long description) {
 	char buffer[BYTES];
-	int err = 0;
-
-	if(prot == SOCK_STREAM) 
- 		err = recv(description, buffer, sizeof(buffer), 0);
- 	else if(prot == SOCK_DGRAM)
- 		err = read(description, buffer, sizeof(buffer));
+	int err = read(description, buffer, sizeof(buffer));
 
  	if(err == -1)
  		throw std::runtime_error("Error receive!");
@@ -73,14 +67,8 @@ std::string Socket::receive(long description) const {
  	return static_cast<std::string>(buffer);
 }
 
-void Socket::send(long description, size_t bytes) const {
-	char buffer[BYTES];
-	int err = 0;
-
-	if(prot == SOCK_STREAM)
-		err = ::send(description, buffer, sizeof(buffer), 0);
-	else if(prot == SOCK_DGRAM)
-		err = write(description, buffer, sizeof(buffer));
+void Socket::send(long description, const char *buffer) {
+	int err = write(description, buffer, sizeof(buffer));
 
  	if(err == -1)
  		throw std::runtime_error("Error send!"); 	

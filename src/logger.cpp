@@ -5,7 +5,7 @@
 *									      *
 *	+ Created Date: May 3th, 2016	      *
 *									      *
-*	+ Last Modified: May  4th, 2016	      *
+*	+ Last Modified: May  5th, 2016	      *
 *									  	  *
 *	+ Title: logger.cpp					  *
 *									      *
@@ -62,9 +62,12 @@ void Logger::sys_register(std::string& message, Flags level) {
 		case WARNING: type = "WARNING"; break;
 	}
 	
-	std::string text = "TYPE: " + type + "\t" + sys_time() + 
-					   "\n " + message + "\n";
+	std::string text = "[#] TYPE: " + type + "\t" + sys_time() + 
+					   "\n" + message + "\n";
+	
+	output << "========\t\t\t\t\t\t\t\t========" << std::endl;
 	output << text;
+	output << "========\t\t\t\t\t\t\t\t========" << std::endl;
 	
 	mutex.unlock();
 }

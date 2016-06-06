@@ -5,7 +5,7 @@
 *									      *
 *	+ Created Date: May 4th, 2016	      *
 *									      *
-*	+ Last Modified: May  5th, 2016	      *
+*	+ Last Modified: May  6th, 2016	      *
 *									  	  *
 *	+ Title: socket.h					  *
 *									      *
@@ -28,27 +28,21 @@ class Socket {
 private:
 	//data members
 	struct sockaddr_in address;
-	int prot;
-	long server;
+	int server;
 
 public:
-	//enum
-	enum Protocol {
-		UDP = SOCK_STREAM,
-		TCP = SOCK_DGRAM
-	};
 	//constructor
-	Socket(unsigned int port, Protocol protocol);
+	Socket(unsigned int port);
 	//destructor
 	~Socket();
 	//functions members
-	long accept() const;
-	void bind() const;
-	void connect() const;
-	int get_protocol() const;
-	void listen() const;
-	std::string receive(long description) const;
-	void send(long description, size_t bytes) const;
+	long accept();
+	void bind();
+	void close();
+	void connect();
+	void listen();
+	std::string receive(long description) ;
+	void send(long description, const char *buffer);
 };
 
 #endif //SOCKET_H

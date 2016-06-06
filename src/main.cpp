@@ -5,7 +5,7 @@
 *									      *
 *	+ Created Date: May 3th, 2016	      *
 *									      *
-*	+ Last Modified: May  4th, 2016	      *
+*	+ Last Modified: May  6th, 2016	      *
 *									  	  *
 *	+ Title: main.cpp					  *
 *									      *
@@ -15,12 +15,19 @@
 
 #include <iostream>
 #include "logger.hpp"
+#include "socket.h"
 
 int main(int argc, char **argv) {
-
-	std::string t = "Test ok!";
 	
-	Logger::get_instance().sys_register(t, Logger::INFO);
+	Socket st{8080};
 
-	return 0;
+	int client = 0;
+
+	st.bind();
+	st.listen();
+
+	while(true)
+		client = st.accept();
+
+	return client;
 }

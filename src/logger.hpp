@@ -25,12 +25,10 @@ class Logger {
 private:
 	//constructor default
 	Logger();
-
 	//data members
 	static Logger *instance;
 	std::mutex mutex;
 	std::ofstream output;
-
 	//class internal
 	class Cleanup { public: ~Cleanup(); };
 
@@ -39,7 +37,6 @@ public:
 	Logger(const Logger& copy) = delete;
 	//destructor
     ~Logger();
-	
 	//enum
 	enum Flags {
 		DEBUG,
@@ -47,7 +44,6 @@ public:
 		INFO,
 		WARNING
 	};
-	
 	//member function
 	static Logger& get_instance();
 	void sys_register(std::string& message, Flags level); 
