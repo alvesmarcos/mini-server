@@ -1,20 +1,9 @@
-/**
-*******************************************
-*										  *
-*	+ Created By: Marcos alves            *
-*									      *
-*	+ Created Date: May 3th, 2016	      *
-*									      *
-*	+ Last Modified: May  4th, 2016	      *
-*									  	  *
-*	+ Title: logger.hpp					  *
-*									      *
-*	+ Email: marcos.alves@cc.ci.ufpb.br   *
-*										  *
-******************************************* **/
+// Created By: Marcos alves
+// Created Date: May 3th, 2016	  
+// Last Modified: May 7th, 2016	      
 
-#ifndef LOGGER_H
-#define LOGGER_H
+#ifndef LOGGER_HPP
+#define LOGGER_HPP
 
 #include <fstream>
 #include <iostream>
@@ -50,4 +39,4 @@ public:
 	std::string sys_time() const;
 };
 
-#endif //LOGGER_H
+#endif //LOGGER_HPP

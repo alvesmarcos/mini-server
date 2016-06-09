@@ -1,17 +1,6 @@
-/**
-*******************************************
-*										  *
-*	+ Created By: Marcos alves            *
-*									      *
-*	+ Created Date: May 4th, 2016	      *
-*									      *
-*	+ Last Modified: May  6th, 2016	      *
-*									  	  *
-*	+ Title: socket.cpp					  *
-*									      *
-*	+ Email: marcos.alves@cc.ci.ufpb.br   *
-*										  *
-******************************************* **/
+// Created By: Marcos alves
+// Created Date: May 4th, 2016	  
+// Last Modified: May 7th, 2016	
 
 #include "socket.h"
 
@@ -64,7 +53,9 @@ std::string Socket::receive(long description) const {
  	if(err == -1)
  		throw std::runtime_error("Error receive!");
 
- 	return static_cast<std::string>(buffer);
+ 	std::string copy{ buffer, static_cast<size_t>(err) };
+
+ 	return copy;
 }
 
 void Socket::send(long description, std::string& buffer) const {

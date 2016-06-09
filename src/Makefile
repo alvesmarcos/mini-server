@@ -1,3 +1,7 @@
+# Created By: Marcos alves
+# Created Date: May 3th, 2016	  
+# Last Modified: May 7th, 2016	
+
 # compiler
 
 CC = g++
@@ -10,8 +14,8 @@ FLAGS = -O2 -std=c++11 -pedantic -Wall -Werror
 
 all: main
 
-main: main.o logger.o socket.o
-	$(CC) -pthread -g3 $(FLAGS) main.o socket.o logger.o -o main
+main: main.o logger.o socket.o emulator.o
+	$(CC) -pthread -g3 $(FLAGS) main.o socket.o logger.o emulator.o -o main
 	./main
 
 main.o: main.cpp
@@ -22,7 +26,10 @@ logger.o: logger.cpp
 
 socket.o: socket.cpp
 	$(CC) $(FLAGS) -c socket.cpp
-	
+
+emulator.o: emulator.cpp
+	$(CC) $(FLAGS) -c emulator.cpp	
+
 .PHONY: clean
 
 clean:

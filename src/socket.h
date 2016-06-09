@@ -1,17 +1,6 @@
-/**
-*******************************************
-*										  *
-*	+ Created By: Marcos alves            *
-*									      *
-*	+ Created Date: May 4th, 2016	      *
-*									      *
-*	+ Last Modified: May  6th, 2016	      *
-*									  	  *
-*	+ Title: socket.h					  *
-*									      *
-*	+ Email: marcos.alves@cc.ci.ufpb.br   *
-*										  *
-******************************************* **/
+// Created By: Marcos alves
+// Created Date: May 4th, 2016	  
+// Last Modified: May 7th, 2016	
 
 #ifndef SOCKET_H
 #define SOCKET_H
@@ -23,7 +12,7 @@
 #include <exception>
 #include <iostream>
 
-#define BYTES 	1024
+#define BYTES 	10240
 
 class Socket {
 private:

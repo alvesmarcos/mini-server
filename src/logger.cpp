@@ -1,17 +1,6 @@
-/**
-*******************************************
-*										  *
-*	+ Created By: Marcos alves            *
-*									      *
-*	+ Created Date: May 3th, 2016	      *
-*									      *
-*	+ Last Modified: May  5th, 2016	      *
-*									  	  *
-*	+ Title: logger.cpp					  *
-*									      *
-*	+ Email: marcos.alves@cc.ci.ufpb.br   *
-*										  *
-******************************************* **/
+// Created By: Marcos alves
+// Created Date: May 3th, 2016	  
+// Last Modified: May 7th, 2016	      
 
 #include "logger.hpp"
 
