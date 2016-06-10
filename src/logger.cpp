@@ -29,14 +29,14 @@ Logger::~Logger() {
 
 Logger& Logger::get_instance(void) {
 
-	if(instance == nullptr) instance = new Logger();
-
+	if(instance == nullptr)
+		instance = new Logger();
 	return *instance;
 }
 
 std::string Logger::sys_time(void) const {
-	return  "TIME: " + static_cast<const std::string>(__TIME__) + 
-		  "\tDATA: " + static_cast<const std::string>(__DATE__) ;
+   time_t now = time(0);
+   return std::string(ctime(&now));
 }
 
 void Logger::sys_register(std::string& message, Flags level) {
@@ -51,8 +51,8 @@ void Logger::sys_register(std::string& message, Flags level) {
 		case WARNING: type = "WARNING"; break;
 	}
 	
-	std::string text = "[#] TYPE: " + type + "\t" + sys_time() + 
-					   "\n" + message + "\n";
+	std::string text = "[#] TYPE: " + type + "\t\tDATE: " + sys_time() + 
+					   "\n\n" + message + "\n";
 	
 	output << "========\t\t\t\t\t\t\t\t========" << std::endl;
 	output << text;

@@ -14,8 +14,10 @@ Socket::Socket(unsigned int port) {
 
 Socket::~Socket() { close(); }
 
-long Socket::accept(void) const {
-	long acc = ::accept(server, 0, 0);
+int Socket::accept(void) const {
+	socklen_t size = sizeof(address_client);
+	int acc = ::accept(server, const_cast<struct sockaddr*>(reinterpret_cast<struct sockaddr const*>
+	 				  (&address_client)), &size);
 	return acc;
 }
 
@@ -38,6 +40,11 @@ void Socket::connect(void) const {
 					   sizeof(address));
 	if(err)
 		throw std::runtime_error("Error connect!"); 	
+}
+
+std::string Socket::get_ip(void) const {
+	char* ip = inet_ntoa(address_client.sin_addr);
+	return static_cast<std::string>(ip);
 }
 
 void Socket::listen(void) const {

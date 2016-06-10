@@ -21,15 +21,13 @@ private:
 	Socket* socket;
 	std::vector<std::thread> threads; 
 	//functions members
-	//void activity(long client);
+	void activity(int client);
 	bool regex_test(std::string& expr);
-	void load_rules();
-	std::vector<std::string> split(std::string str, char delimiter);
+	void split(std::string& str, std::vector<std::string>& v);
 
 public:
-	void activity(int& client);
 	//constructor
-	Emulator(Socket* skt);
+	Emulator(Socket& skt);
 	//destructor
 	~Emulator();
 	//functions members

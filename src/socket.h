@@ -18,6 +18,7 @@ class Socket {
 private:
 	//data members
 	struct sockaddr_in address;
+	struct sockaddr_in address_client;
 	int server;
 
 public:
@@ -26,10 +27,11 @@ public:
 	//destructor
 	~Socket();
 	//functions members
-	long accept() const;
+	int accept() const;
 	void bind() const;
 	void close();
 	void connect() const;
+	std::string get_ip() const;
 	void listen() const;
 	std::string receive(long description) const; 
 	void send(long description, std::string& buffer) const;

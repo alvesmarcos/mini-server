@@ -8,6 +8,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <chrono>
 #include <mutex>
 
 class Logger {
