@@ -1,6 +1,6 @@
 // Created By: Marcos alves
-// Created Date: May 6th, 2016	  
-// Last Modified: May 7th, 2016	
+// Created Date: Jun 6th, 2016	  
+// Last Modified: Jun 11th, 2016	
 
 #ifndef EMULATOR_H
 #define EMULATOR_H
@@ -23,7 +23,6 @@ private:
 	//functions members
 	void activity(int client);
 	bool regex_test(std::string& expr);
-	void split(std::string& str, std::vector<std::string>& v);
 
 public:
 	//constructor

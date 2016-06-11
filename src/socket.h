@@ -1,6 +1,6 @@
 // Created By: Marcos alves
-// Created Date: May 4th, 2016	  
-// Last Modified: May 7th, 2016	
+// Created Date: Jun 4th, 2016	  
+// Last Modified: Jun 11th, 2016	
 
 #ifndef SOCKET_H
 #define SOCKET_H
@@ -27,11 +27,12 @@ public:
 	//destructor
 	~Socket();
 	//functions members
-	int accept() const;
+	int accept();
 	void bind() const;
 	void close();
 	void connect() const;
 	std::string get_ip() const;
+	std::string get_client_ip() const;
 	void listen() const;
 	std::string receive(long description) const; 
 	void send(long description, std::string& buffer) const;

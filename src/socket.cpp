@@ -1,6 +1,6 @@
 // Created By: Marcos alves
-// Created Date: May 4th, 2016	  
-// Last Modified: May 7th, 2016	
+// Created Date: Jun 4th, 2016	  
+// Last Modified: Jun 11th, 2016	
 
 #include "socket.h"
 
@@ -14,17 +14,17 @@ Socket::Socket(unsigned int port) {
 
 Socket::~Socket() { close(); }
 
-int Socket::accept(void) const {
+int Socket::accept(void) {
 	socklen_t size = sizeof(address_client);
-	int acc = ::accept(server, const_cast<struct sockaddr*>(reinterpret_cast<struct sockaddr const*>
-	 				  (&address_client)), &size);
+	int acc = ::accept(server, reinterpret_cast<struct sockaddr*>(&address_client), 
+					   &size);
 	return acc;
 }
 
 void Socket::bind(void) const {
 	int err = ::bind(server, reinterpret_cast<const struct sockaddr*> (&address),
 					sizeof(address));
-	if(err!=0)
+	if(err)
 		throw std::runtime_error("Error bind!");  
 }
 
@@ -43,8 +43,13 @@ void Socket::connect(void) const {
 }
 
 std::string Socket::get_ip(void) const {
+	char* ip = inet_ntoa(address.sin_addr);
+	return ip;
+}
+
+std::string Socket::get_client_ip(void) const {
 	char* ip = inet_ntoa(address_client.sin_addr);
-	return static_cast<std::string>(ip);
+	return ip;	
 }
 
 void Socket::listen(void) const {

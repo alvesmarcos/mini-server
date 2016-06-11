@@ -1,6 +1,6 @@
 // Created By: Marcos alves
-// Created Date: May 7th, 2016	  
-// Last Modified: May 7th, 2016	
+// Created Date: Jun 7th, 2016	  
+// Last Modified: Jun 11th, 2016	
 
 #include "emulator.h"
 
@@ -17,12 +17,12 @@ Emulator::~Emulator() { /* unimplemented */ }
 
 void Emulator::activity(int client) {
 	std::string recv = socket->receive(client);
-	recv += "IP adress: " + socket->get_ip();
+	recv += "IP address: " + socket->get_client_ip();
 	Logger::get_instance().sys_register(recv, Logger::INFO);
 
 	//variants message
-	std::string status = "OK";
-	std::string content_type = "none";
+	std::string status("200 OK");
+	std::string content_type("none");
 	std::string content("");
 
 	if(!regex_test(recv))
@@ -44,8 +44,8 @@ void Emulator::activity(int client) {
 	}	
 
 	std::string message = "\nHTTP/1.1 " + status +
-						  "\nDate: " + Logger::get_instance().sys_time() + " GMT"
-						  "\nServer: test"
+						  "\nDate: " + Logger::get_instance().sys_time() +
+						  "\nServer: alvesmarcos/Ubuntu"
 					      "\nContent-Length: " + std::to_string(content.length()) +
 						  "\nContent-Type: " + content_type + "; utf8"
 						  "\nConnection: Closed\n\n" + content;
@@ -56,8 +56,14 @@ void Emulator::activity(int client) {
 
 bool Emulator::regex_test(std::string& expr) {
 	std::vector<std::string> expr_vec;
-	split(expr, expr_vec);
 
+	//split string
+	char* token = std::strtok(&expr[0], "\n");
+    while(token!=nullptr){
+       expr_vec.push_back(token);
+       token = std::strtok(nullptr, "\n");
+    }
+   
 	if(expr_vec.size() < rules.size())
 		return false;
 	
@@ -78,16 +84,7 @@ void Emulator::run(void) {
 			int client = socket->accept();
 			threads.push_back(std::thread(&Emulator::activity, this, client));
 		}
-	} catch (std::exception e) {
-		std::cerr << "About: " << std::endl;
+	} catch (std::exception& e) {
+		std::cerr << "About: " <<  e.what() <<std::endl;
 	}
-}
-
-void Emulator::split(std::string& str, std::vector<std::string>& v) {
-    char* token = std::strtok(&str[0], "\n");
-    
-    while(token!=nullptr){
-       v.push_back(std::string(token));
-       token = std::strtok(nullptr, "\n");
-    }
 }

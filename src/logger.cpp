@@ -1,6 +1,6 @@
 // Created By: Marcos alves
-// Created Date: May 3th, 2016	  
-// Last Modified: May 7th, 2016	      
+// Created Date: Jun 3th, 2016	  
+// Last Modified: Jun 11th, 2016	      
 
 #include "logger.hpp"
 
@@ -52,11 +52,11 @@ void Logger::sys_register(std::string& message, Flags level) {
 	}
 	
 	std::string text = "[#] TYPE: " + type + "\t\tDATE: " + sys_time() + 
-					   "\n\n" + message + "\n";
+					   "\n" + message + "\n";
 	
-	output << "========\t\t\t\t\t\t\t\t========" << std::endl;
+	output << "========" << std::endl;
 	output << text;
-	output << "========\t\t\t\t\t\t\t\t========" << std::endl;
+	output << "========" << std::endl;
 	
 	mutex.unlock();
 }
