@@ -1,60 +1,67 @@
 // Created By: Marcos alves
 // Created Date: Jun 7th, 2016	  
-// Last Modified: Jun 11th, 2016	
+// Last Modified: Jun 12th, 2016	
 
 #include "emulator.h"
 
-Emulator::Emulator(Socket& skt): socket(&skt) {
-	rules.push_back(std::regex("GET \\/.+ HTTP\\/1\\.1"));
-	rules.push_back(std::regex("Host: .+"));
-	rules.push_back(std::regex("User-Agent: .+"));
-	rules.push_back(std::regex("Accept: .+"));
-	rules.push_back(std::regex("Accept-Language: .+"));
-	rules.push_back(std::regex("Accept-Encoding: .+"));
-}
+Emulator::Emulator(Socket& skt):
+				//load types
+				types { {"html", "text/html"},
+						{"gif", "image/gif"}, 
+						{"jpg", "image/jpg"},
+						{"png", "image/png"} },
+				//load rules HTTP
+				rules { std::regex("GET \\/[[:alnum:]]+\\.[[:alnum:]]+ HTTP\\/1\\.1"),
+			    std::regex("Host: .+"),
+				std::regex("User-Agent: .+"),
+			    std::regex("Accept: .+"),
+				std::regex("Accept-Language: .+"),
+				std::regex("Accept-Encoding: .+") },
+				//init-value socket
+				socket(&skt) {/* unimplemented */ }
 
 Emulator::~Emulator() { /* unimplemented */ }
 
 void Emulator::activity(int client) {
-	std::string recv = socket->receive(client);
+	std::string recv {socket->receive(client)};
 	recv += "IP address: " + socket->get_client_ip();
 	Logger::get_instance().sys_register(recv, Logger::INFO);
 
 	//variants message
-	std::string status("200 OK");
-	std::string content_type("none");
-	std::string content("");
+	std::string status{"200 OK"};
+	std::string content_type{"none"};
+	std::string content{""};
 
 	if(!regex_test(recv))
 		status = "400 Bad Request";
 	else {
-		std::string::size_type position = recv.find("HTTP") - 5; //[SPACE]+|HTTP| - 
-		std::string file =  recv.substr(4, position);
-		std::ifstream read("../base/" + file);
+		std::string::size_type position {recv.find("HTTP") - 5}; //[SPACE]+|HTTP| - 
+		std::string file {recv.substr(4, position)};
+		std::ifstream read{"../base/" + file};
 		if(!read.good())
 			status = "404 Not Found";
 		else {
 			std::string copy{(std::istreambuf_iterator<char>(read)),
                        		 (std::istreambuf_iterator<char>())};
 			content = copy;
-			position = file.find(".");
-			content_type = file.substr(position, file.length());
+			position = file.find(".") + 1;
+			content_type = types[file.substr(position, file.length())];
 			read.close();
 		}
 	}	
 
 	std::string message = "\nHTTP/1.1 " + status +
 						  "\nDate: " + Logger::get_instance().sys_time() +
-						  "\nServer: alvesmarcos/Ubuntu"
+						  "Server: alvesmarcos/Ubuntu"
 					      "\nContent-Length: " + std::to_string(content.length()) +
-						  "\nContent-Type: " + content_type + "; utf8"
+						  "\nContent-Type: " + content_type +
 						  "\nConnection: Closed\n\n" + content;
 	
 	socket->send(client, message);
 	close(client);
 } 
 
-bool Emulator::regex_test(std::string& expr) {
+bool Emulator::regex_test(std::string& expr) const {
 	std::vector<std::string> expr_vec;
 
 	//split string

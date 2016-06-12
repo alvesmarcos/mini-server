@@ -1,6 +1,6 @@
 # Created By: Marcos alves
-# Created Date: May 10th, 2016	  
-# Last Modified: May 10th, 2016	
+# Created Date: Jun 10th, 2016	  
+# Last Modified: Jun 11th, 2016	
 
 #initial information
 echo "Mini-Server-HTTP 1.0 (default, Jun 10 2016, 01:00:29)
@@ -18,14 +18,12 @@ do
 	read comd
 	case "$comd" in
    		"start") echo "=> running server"  
-		gnome-terminal -x make
-   		;;
+				 gnome-terminal -x make ;;
    		"clean") echo "=> clean *.o generated"
-   		make clean 
-   		;;
+   				 make clean ;;
    		"kill") echo "=> kill server"
-		 pkill main
-   		;;
+		 		pkill main ;;
+   		*) comd="whatever";;
 	esac
 	count=$(($count+1))
 	if [ "$count" -gt 9 ];

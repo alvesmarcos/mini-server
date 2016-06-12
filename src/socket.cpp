@@ -4,9 +4,9 @@
 
 #include "socket.h"
 
-Socket::Socket(unsigned int port) {
-	address = {AF_INET, htons(port), (INADDR_ANY), 0};
-	
+Socket::Socket(unsigned int port):
+				address{AF_INET, htons(port), (INADDR_ANY), 0}
+{
 	server = socket(AF_INET, SOCK_STREAM, 0);
 	if(server == -1)
 		throw std::runtime_error("Error socket!");

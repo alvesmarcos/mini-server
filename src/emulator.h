@@ -1,6 +1,6 @@
 // Created By: Marcos alves
 // Created Date: Jun 6th, 2016	  
-// Last Modified: Jun 11th, 2016	
+// Last Modified: Jun 12th, 2016	
 
 #ifndef EMULATOR_H
 #define EMULATOR_H
@@ -8,6 +8,7 @@
 #include <vector>
 #include <thread>
 #include <sstream>
+#include <map>
 #include <string>
 #include <cstring>
 #include <regex>
@@ -17,12 +18,13 @@
 class Emulator {
 private:
 	//data members
+	std::map<std::string, std::string> types;
 	std::vector<std::regex> rules;
 	Socket* socket;
 	std::vector<std::thread> threads; 
 	//functions members
 	void activity(int client);
-	bool regex_test(std::string& expr);
+	bool regex_test(std::string& expr) const;
 
 public:
 	//constructor
