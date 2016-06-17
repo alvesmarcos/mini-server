@@ -51,8 +51,8 @@ void Logger::sys_register(std::string& message, Flags level) {
 		case WARNING: type = "WARNING"; break;
 	}
 	
-	std::string text = "[#] TYPE: " + type + "\t\tDATE: " + sys_time() + 
-					   "\n" + message + "\n";
+	std::string text{"[#] TYPE: " + type + "\t\tDATE: " + sys_time() + 
+					 "\n" + message + "\n"};
 	
 	output << "========" << std::endl;
 	output << text;

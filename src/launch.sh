@@ -1,6 +1,6 @@
 # Created By: Marcos alves
 # Created Date: Jun 10th, 2016	  
-# Last Modified: Jun 11th, 2016	
+# Last Modified: Jun 12th, 2016	
 
 #initial information
 echo "Mini-Server-HTTP 1.0 (default, Jun 10 2016, 01:00:29)
@@ -10,26 +10,27 @@ echo "Mini-Server-HTTP 1.0 (default, Jun 10 2016, 01:00:29)
 comd=0
 count=1
 zero=00
+condition=true
 
 #program
-while [ $comd != "quit" ]
+while $condition
 do
 	echo -e "iam(ssh):$zero$count:> \c"
 	read comd
 	case "$comd" in
    		"start") echo "=> running server"  
-				 gnome-terminal -x make ;;
+				 gnome-terminal -x make;;
    		"clean") echo "=> clean *.o generated"
    				 make clean ;;
    		"kill") echo "=> kill server"
 		 		pkill main ;;
-   		*) comd="whatever";;
+   		"quit") condition=false;;
 	esac
 	count=$(($count+1))
-	if [ "$count" -gt 9 ];
-		then
+	if [ "$count" -gt 9 ] && [ "$count" -le 99 ]; then
 		zero=0
-	elif [ "$count" -gt 100 ];
+	fi
+	if [ "$count" -gt 99 ];
 		then
 		zero=""
 	fi

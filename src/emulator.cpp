@@ -12,11 +12,11 @@ Emulator::Emulator(Socket& skt):
 						{"png", "image/png"} },
 				//load rules HTTP
 				rules { std::regex("GET \\/[[:alnum:]]+\\.[[:alnum:]]+ HTTP\\/1\\.1"),
-			    std::regex("Host: .+"),
-				std::regex("User-Agent: .+"),
-			    std::regex("Accept: .+"),
-				std::regex("Accept-Language: .+"),
-				std::regex("Accept-Encoding: .+") },
+			    		std::regex("Host: .+"),
+						std::regex("User-Agent: .+"),
+			    		std::regex("Accept: .+"),
+						std::regex("Accept-Language: .+"),
+						std::regex("Accept-Encoding: .+") },
 				//init-value socket
 				socket(&skt) {/* unimplemented */ }
 
@@ -50,12 +50,12 @@ void Emulator::activity(int client) {
 		}
 	}	
 
-	std::string message = "\nHTTP/1.1 " + status +
+	std::string message { "\nHTTP/1.1 " + status +
 						  "\nDate: " + Logger::get_instance().sys_time() +
 						  "Server: alvesmarcos/Ubuntu"
 					      "\nContent-Length: " + std::to_string(content.length()) +
 						  "\nContent-Type: " + content_type +
-						  "\nConnection: Closed\n\n" + content;
+						  "\nConnection: Closed\n\n" + content };
 	
 	socket->send(client, message);
 	close(client);
@@ -82,7 +82,6 @@ bool Emulator::regex_test(std::string& expr) const {
 }
 
 void Emulator::run(void) {
-	
 	try {
 		socket->bind();
 		socket->listen();
