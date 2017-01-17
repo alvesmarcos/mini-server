@@ -53,7 +53,8 @@ void Emulator::activity(int client) {
 
 	std::string message { "\nHTTP/1.1 " + status +
 						  "\nDate: " + Logger::get_instance().sys_time() +
-						  "Server: alvesmarcos/Ubuntu"
+						  "Server: alvesmarcos/Ubuntu" +
+						  "\nAccess-Control-Allow-Origin: *"
 					      "\nContent-Length: " + std::to_string(content.length()) +
 						  "\nContent-Type: " + content_type +
 						  "\nConnection: Closed\n\n" + content };
