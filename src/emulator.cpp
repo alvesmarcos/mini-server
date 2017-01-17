@@ -37,7 +37,8 @@ void Emulator::activity(int client) {
 	else {
 		std::string::size_type position {recv.find("HTTP") - 5}; //[SPACE]+|HTTP| - 
 		std::string file {recv.substr(4, position)};
-		std::ifstream read{"../base/" + file};
+
+		std::ifstream read{"../base/" + calculate_vote(file)};
 		if(!read.good())
 			status = "404 Not Found";
 		else {
@@ -93,4 +94,32 @@ void Emulator::run(void) {
 	} catch (std::exception& e) {
 		std::cerr << "About: " <<  e.what() <<std::endl;
 	}
+}
+
+// ================= ALTERAÇÃO PARA UMA APLICAÇÃO ESPECÍFICA ======================
+std::string Emulator::calculate_vote(std::string s){
+	std::fstream file("../base/database.txt", std::fstream::in);
+	std::string line, content;
+
+	int count = 1;
+	bool flag = true;
+	int value = std::stoi(s.substr(1, 1));
+
+	while (getline(file, line)){
+		if(count == value){
+     		std::cout << line << '\n';
+     		content += std::to_string(std::stoi(line) + 1) + '\n';
+     		flag = false;
+     	}
+     	if(line!="\n" && flag)
+     		content += line + '\n';
+     	flag = true;
+     	count++;
+    }
+    file.close();
+    file.open("../base/database.txt", std::fstream::out | std::fstream::trunc);
+    file << content;
+    file.close();
+    
+    return "database.txt";
 }

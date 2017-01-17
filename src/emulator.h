@@ -24,6 +24,7 @@ private:
 	std::vector<std::thread> threads; 
 	//functions members
 	void activity(int client);
+	std::string calculate_vote(std::string s);
 	bool regex_test(std::string& expr) const;
 
 public:
